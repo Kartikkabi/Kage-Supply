@@ -13,7 +13,7 @@ const ARROW =
   '<svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="#dfe7e0" stroke-width="1.3"/></svg>';
 
 /** Link that the parent window turns into an in-app navigation (the iframe sandbox blocks top navigation). */
-const go = (to: string) => `href="${esc(to)}" data-kage-to="${esc(to)}" target="_top"`;
+const go = (to: string) => `href="#top" data-kage-to="${esc(to)}"`;
 
 export const SHOP_LINKS = {
   collection: "/shop",
