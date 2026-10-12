@@ -79,9 +79,9 @@ function Shop() {
                 <li key={p.id} className="flex items-center justify-between gap-2 text-sm">
                   <div><p>{p.name}</p><p className="text-muted-foreground">{inr(p.price)}</p></div>
                   <div className="flex items-center gap-2">
-                    <button className="nova-qty" aria-label="Decrease" onClick={() => actions.setQty(p.id, cart[p.id] - 1)}>−</button>
+                    <button className="nova-qty" aria-label="Decrease" onClick={() => actions.setQty(p.id, (cart[p.id] ?? 0) - 1)}>−</button>
                     <span className="w-5 text-center">{cart[p.id]}</span>
-                    <button className="nova-qty" aria-label="Increase" disabled={cart[p.id] >= p.stock} onClick={() => actions.setQty(p.id, cart[p.id] + 1)}>+</button>
+                    <button className="nova-qty" aria-label="Increase" disabled={(cart[p.id] ?? 0) >= p.stock} onClick={() => actions.setQty(p.id, (cart[p.id] ?? 0) + 1)}>+</button>
                   </div>
                 </li>
               ))}
