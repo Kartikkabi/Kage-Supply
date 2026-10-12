@@ -32,7 +32,7 @@ function Landing() {
           headingLetterSpacing={-0.012}
         />
       </div>
-      <div className="pointer-events-none fixed inset-x-0 bottom-6 z-20 flex justify-center gap-3 px-4">
+      <div className="pointer-events-none fixed inset-x-0 top-20 z-20 flex justify-center gap-3 px-4 sm:top-5">
         <Link to="/shop" className="nova-cta pointer-events-auto">Enter NOVA Supply →</Link>
         <Link to="/inventory" className="nova-ghost pointer-events-auto">Inventory</Link>
       </div>

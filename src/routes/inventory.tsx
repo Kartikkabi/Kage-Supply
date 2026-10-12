@@ -18,7 +18,7 @@ export const Route = createFileRoute("/inventory")({
   component: Inventory,
 });
 
-const blank = (): Product => ({ id: "", name: "", sku: "", category: CATEGORIES[0], price: 0, stock: 0, image: IMAGES.headphones });
+const blank = (): Product => ({ id: "", name: "", sku: "", category: CATEGORIES[0]!, price: 0, stock: 0, image: IMAGES.headphones });
 
 function Inventory() {
   const { products } = useStore();
