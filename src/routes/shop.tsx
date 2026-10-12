@@ -14,9 +14,9 @@ export const Route = createFileRoute("/shop")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  validateSearch: (s: Record<string, unknown>): { cat?: string; q?: string } => ({
-    cat: typeof s.cat === "string" ? s.cat : undefined,
-    q: typeof s.q === "string" ? s.q : undefined,
+  validateSearch: (s: Record<string, unknown>): { cat?: string | undefined; q?: string | undefined } => ({
+    cat: typeof s["cat"] === "string" ? s["cat"] : undefined,
+    q: typeof s["q"] === "string" ? s["q"] : undefined,
   }),
   component: Shop,
 });
