@@ -227,5 +227,7 @@ export function buildKageSupplyDoc(html: string, products: Product[], base = "/l
     /const names = \[[^\]]*\];/,
     "const names = ['Kage Supply', 'Audio', 'Keyboards & Accessories', 'The Collection', 'Make Space for Better', 'Footer'];",
   );
+  // Absolute asset paths: the frame may not honour <base> for srcdoc documents.
+  out = out.replace(/(["'(])secret-pathways-assets\//g, `$1${base}secret-pathways-assets/`);
   return out.replace("</body>", `${BRIDGE}</body>`);
 }
