@@ -6,10 +6,10 @@ import { actions, cartTotal, CATEGORIES, inr, LOW_STOCK, useStore } from "@/lib/
 export const Route = createFileRoute("/shop")({
   head: () => ({
     meta: [
-      { title: "Store — NOVA Supply" },
-      { name: "description", content: "Shop premium audio, peripherals and wearables at NOVA Supply. Prices in INR." },
-      { property: "og:title", content: "Store — NOVA Supply" },
-      { property: "og:description", content: "Shop premium audio, peripherals and wearables at NOVA Supply." },
+      { title: "Store — Kage Supply" },
+      { name: "description", content: "Shop premium audio, peripherals and wearables at Kage Supply. Prices in INR." },
+      { property: "og:title", content: "Store — Kage Supply" },
+      { property: "og:description", content: "Shop premium audio, peripherals and wearables at Kage Supply." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],

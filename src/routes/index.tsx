@@ -6,10 +6,10 @@ export const Route = createFileRoute("/")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "NOVA Supply — Enter the Temple" },
-      { name: "description", content: "An immersive Kage temple journey into NOVA Supply's premium technology store." },
-      { property: "og:title", content: "NOVA Supply — Enter the Temple" },
-      { property: "og:description", content: "An immersive Kage temple journey into NOVA Supply's premium technology store." },
+      { title: "Kage Supply — Enter the Temple" },
+      { name: "description", content: "An immersive Kage temple journey into Kage Supply's premium technology store." },
+      { property: "og:title", content: "Kage Supply — Enter the Temple" },
+      { property: "og:description", content: "An immersive Kage temple journey into Kage Supply's premium technology store." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -33,7 +33,7 @@ function Landing() {
         />
       </div>
       <div className="pointer-events-none fixed inset-x-0 top-20 z-20 flex justify-center gap-3 px-4 sm:top-5">
-        <Link to="/shop" className="nova-cta pointer-events-auto">Enter NOVA Supply →</Link>
+        <Link to="/shop" className="nova-cta pointer-events-auto">Enter Kage Supply →</Link>
         <Link to="/inventory" className="nova-ghost pointer-events-auto">Inventory</Link>
       </div>
     </div>

@@ -7,10 +7,10 @@ import { actions, CATEGORIES, IMAGES, inr, useStore, validateProduct, type Produ
 export const Route = createFileRoute("/inventory")({
   head: () => ({
     meta: [
-      { title: "Inventory — NOVA Supply" },
-      { name: "description", content: "Manage NOVA Supply products, prices and stock levels." },
-      { property: "og:title", content: "Inventory — NOVA Supply" },
-      { property: "og:description", content: "Manage NOVA Supply products, prices and stock levels." },
+      { title: "Inventory — Kage Supply" },
+      { name: "description", content: "Manage Kage Supply products, prices and stock levels." },
+      { property: "og:title", content: "Inventory — Kage Supply" },
+      { property: "og:description", content: "Manage Kage Supply products, prices and stock levels." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
