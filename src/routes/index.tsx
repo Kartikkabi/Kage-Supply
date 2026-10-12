@@ -1,24 +1,41 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { KageLandingPage } from "@designcodeio/threeui";
+import "@designcodeio/threeui/style.css";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  ssr: false,
+  head: () => ({
+    meta: [
+      { title: "NOVA Supply — Enter the Temple" },
+      { name: "description", content: "An immersive Kage temple journey into NOVA Supply's premium technology store." },
+      { property: "og:title", content: "NOVA Supply — Enter the Temple" },
+      { property: "og:description", content: "An immersive Kage temple journey into NOVA Supply's premium technology store." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
+  component: Landing,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Landing() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="fixed inset-0 bg-background">
+      <div className="shader-frame h-full w-full">
+        <KageLandingPage
+          headingFont="onest"
+          bodyFont="onest"
+          headingWeight="400"
+          bodyWeight="300"
+          primaryColor="#e0231c"
+          headingSize={46}
+          bodySize={17}
+          headingLetterSpacing={-0.012}
+        />
+      </div>
+      <div className="pointer-events-none fixed inset-x-0 bottom-6 z-20 flex justify-center gap-3 px-4">
+        <Link to="/shop" className="nova-cta pointer-events-auto">Enter NOVA Supply →</Link>
+        <Link to="/inventory" className="nova-ghost pointer-events-auto">Inventory</Link>
+      </div>
     </div>
   );
 }
