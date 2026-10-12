@@ -88,7 +88,7 @@ export const actions = {
     const exists = state.products.some((x) => x.id === p.id);
     const products = exists ? state.products.map((x) => (x.id === p.id ? p : x)) : [...state.products, p];
     const cart = { ...state.cart };
-    if (cart[p.id] > p.stock) cart[p.id] = p.stock;
+    if ((cart[p.id] ?? 0) > p.stock) cart[p.id] = p.stock;
     if (cart[p.id] === 0) delete cart[p.id];
     set({ products, cart });
   },
