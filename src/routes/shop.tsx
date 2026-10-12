@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NovaNav } from "@/components/NovaNav";
 import { actions, cartTotal, CATEGORIES, inr, LOW_STOCK, useStore } from "@/lib/store";
 
@@ -14,13 +14,22 @@ export const Route = createFileRoute("/shop")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  validateSearch: (s: Record<string, unknown>): { cat?: string; q?: string } => ({
+    cat: typeof s.cat === "string" ? s.cat : undefined,
+    q: typeof s.q === "string" ? s.q : undefined,
+  }),
   component: Shop,
 });
 
 function Shop() {
   const { products, cart } = useStore();
-  const [q, setQ] = useState("");
-  const [cat, setCat] = useState("All");
+  const search = Route.useSearch();
+  const [q, setQ] = useState(search.q ?? "");
+  const [cat, setCat] = useState(search.cat && CATEGORIES.includes(search.cat) ? search.cat : "All");
+  useEffect(() => {
+    setQ(search.q ?? "");
+    setCat(search.cat && CATEGORIES.includes(search.cat) ? search.cat : "All");
+  }, [search.q, search.cat]);
   const [done, setDone] = useState<number | null>(null);
   const list = products.filter(
     (p) => (cat === "All" || p.category === cat) &&
