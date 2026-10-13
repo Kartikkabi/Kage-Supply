@@ -14,7 +14,7 @@ export const Route = createFileRoute("/shop")({
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
   ] }),
-  validateSearch: (s: Record<string, unknown>): { cat?: string; q?: string } => ({
+  validateSearch: (s: Record<string, unknown>): { cat?: string | undefined; q?: string | undefined } => ({
     cat: typeof s["cat"] === "string" ? s["cat"] : undefined,
     q: typeof s["q"] === "string" ? s["q"] : undefined,
   }),
