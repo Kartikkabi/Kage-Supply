@@ -46,6 +46,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-warning: var(--warning);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -111,13 +112,16 @@
 
 @layer base {
   body { font-family: "Onest", system-ui, sans-serif; font-weight: 300; }
-  .font-display { font-family: "Onest", system-ui, sans-serif; font-weight: 400; letter-spacing: -0.012em; }
+  .font-display { font-family: "Onest", system-ui, sans-serif; font-weight: 400; letter-spacing: 0; }
+  button, a, input, select { -webkit-tap-highlight-color: transparent; }
+  a:focus-visible { outline: 2px solid var(--ring); outline-offset: 4px; }
+  ::selection { background: var(--primary); color: var(--primary-foreground); }
 }
 @layer components {
   .nova-link { color: var(--color-muted-foreground); transition: color .2s; }
   .nova-link:hover, .nova-link-active { color: var(--color-foreground); }
   .nova-eyebrow { font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; color: var(--color-primary); }
-  .nova-card { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius-xl); }
+  .nova-card { background: var(--color-card); border: 1px solid var(--color-border); border-radius: var(--radius); }
   .nova-input { background: var(--color-background); border: 1px solid var(--color-input); border-radius: var(--radius-md); padding: .6rem .8rem; color: var(--color-foreground); font-size: .9rem; }
   .nova-input:focus { outline: 2px solid var(--color-ring); outline-offset: 1px; }
   .nova-cta, .nova-cta-sm { background: var(--color-primary); color: var(--color-primary-foreground); border-radius: 999px; padding: .75rem 1.5rem; font-size: .9rem; transition: filter .2s, opacity .2s; box-shadow: 0 10px 40px -10px var(--color-primary); }
@@ -132,4 +136,8 @@
   .nova-badge { font-size: .72rem; padding: .2rem .6rem; border-radius: 999px; background: var(--color-secondary); color: var(--color-muted-foreground); }
   .nova-badge-low { color: var(--warning); }
   .nova-badge-out { color: var(--color-destructive); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }

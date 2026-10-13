@@ -4,6 +4,8 @@ import { KageLandingPage } from "@designcodeio/threeui";
 import "@designcodeio/threeui/style.css";
 import { useStore } from "@/lib/store";
 import { buildKageSupplyDoc } from "@/lib/kage-scenes";
+import { Button } from "@/components/ui/button";
+import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
   ssr: false,
@@ -24,14 +26,15 @@ function Landing() {
   const { products } = useStore();
   const router = useRouter();
   const [doc, setDoc] = useState<string | null>(null);
+  const [failed, setFailed] = useState(false);
 
   // Build once per visit so store updates don't reload the 3D scene mid-scroll.
   useEffect(() => {
     let alive = true;
     fetch("/landing-pages/kage.html")
-      .then((r) => r.text())
+      .then((r) => { if (!r.ok) throw new Error("Landing unavailable"); return r.text(); })
       .then((html) => alive && setDoc(buildKageSupplyDoc(html, products)))
-      .catch(() => {});
+      .catch(() => alive && setFailed(true));
     return () => { alive = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -39,7 +42,9 @@ function Landing() {
   useEffect(() => {
     const onMsg = (e: MessageEvent) => {
       const to = (e.data as { kageTo?: unknown } | null)?.kageTo;
-      if (typeof to === "string" && to.startsWith("/") && !to.startsWith("//")) router.history.push(to);
+      const frame = document.querySelector<HTMLIFrameElement>(".shader-frame iframe");
+      if (e.source !== frame?.contentWindow) return;
+      if (typeof to === "string" && /^\/shop(?:\?|$)|^\/inventory$/.test(to)) void router.navigate({ href: to });
     };
     window.addEventListener("message", onMsg);
     return () => window.removeEventListener("message", onMsg);
@@ -47,6 +52,10 @@ function Landing() {
 
   return (
     <div className="fixed inset-0 bg-background">
+      {!doc && <div className="flex h-full flex-col items-center justify-center gap-5" role="status">
+        <span className="font-display text-2xl">KAGE<span className="text-primary">·</span>SUPPLY</span>
+        {failed ? <><p className="text-muted-foreground">The Kage experience couldn’t load.</p><Button asChild><Link to="/shop">Enter the store</Link></Button></> : <span className="h-1 w-12 animate-pulse bg-primary" />}
+      </div>}
       {doc && (
         <div className="shader-frame h-full w-full">
           <KageLandingPage
@@ -58,7 +67,7 @@ function Landing() {
             primaryColor="#e0231c"
             headingSize={46}
             bodySize={17}
-            headingLetterSpacing={-0.012}
+            headingLetterSpacing={0}
           />
         </div>
       )}

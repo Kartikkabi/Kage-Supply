@@ -7,7 +7,7 @@ import type { Product } from "./store";
 import { inr, LOW_STOCK } from "./store";
 
 const esc = (s: string) =>
-  s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+  s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] ?? c);
 
 const ARROW =
   '<svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="#dfe7e0" stroke-width="1.3"/></svg>';
@@ -36,6 +36,11 @@ document.addEventListener('click', function (e) {
   e.preventDefault(); e.stopPropagation();
   parent.postMessage({ kageTo: a.getAttribute('data-kage-to') }, location.origin === 'null' ? '*' : location.origin);
 }, true);
+document.addEventListener('keydown', function (e) {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  var el = e.target && e.target.closest && e.target.closest('[data-kage-to][role="link"]');
+  if (el) { e.preventDefault(); el.click(); }
+});
 </script>`;
 
 export function buildKageSupplyDoc(html: string, products: Product[], base = "/landing-pages/"): string {
@@ -55,6 +60,9 @@ export function buildKageSupplyDoc(html: string, products: Product[], base = "/l
   const baseEl = doc.createElement("base");
   baseEl.href = base;
   doc.head.prepend(baseEl);
+  const focusStyle = doc.createElement("style");
+  focusStyle.textContent = "[data-kage-to]:focus-visible{outline:2px solid var(--accent);outline-offset:6px} .kage-actions{max-width:100%} @media(max-width:600px){.kage-actions{gap:14px!important;margin-top:18px!important}.kage-actions .cta{padding:14px 18px}.kage-actions .arrowlink{font-size:10px}}";
+  doc.head.append(focusStyle);
   doc.title = "Kage Supply — Enter a New State of Focus";
 
   // Preloader + nav
@@ -68,8 +76,10 @@ export function buildKageSupplyDoc(html: string, products: Product[], base = "/l
   ];
   $$(".nav-link").forEach((a, i) => {
     if (i < 3) {
-      a.setAttribute("href", nav[i]![0]!);
-      a.innerHTML = `<span>${nav[i]![1]}</span><span class="alt">${nav[i]![2]}</span>`;
+      const item = nav[i];
+      if (!item) return;
+      a.setAttribute("href", item[0] ?? "#top");
+      a.innerHTML = `<span>${item[1]}</span><span class="alt">${item[2]}</span>`;
     } else {
       a.outerHTML = `<a class="nav-link" ${go(SHOP_LINKS.collection)} data-cursor><span>Store</span><span class="alt">店</span></a>`;
     }
@@ -78,7 +88,7 @@ export function buildKageSupplyDoc(html: string, products: Product[], base = "/l
   // Scene 1 — brand introduction (hero)
   html_("#hero .eyebrow", '<span class="dot"></span> Kage Supply — Precision Technology');
   const lines = $$("#hero .mask-line > span");
-  ["Enter a New", "State of", "Focus."].forEach((t, i) => lines[i] && (lines[i]!.textContent = t));
+  ["Enter a New", "State of", "Focus."].forEach((t, i) => { const line = lines[i]; if (line) line.textContent = t; });
   const sub = $("#hero .hero-sub");
   if (sub) {
     sub.textContent = "Precision-engineered essentials for those who expect more from their everyday technology.";
@@ -98,7 +108,8 @@ export function buildKageSupplyDoc(html: string, products: Product[], base = "/l
     ["Collection", "Every Kage Supply essential, priced in INR."],
   ];
   $$("#chips .chip .tx").forEach((tx, i) => {
-    if (chips[i]) tx.innerHTML = `<b>${chips[i]![0]}</b><p>${chips[i]![1]}</p>`;
+    const chip = chips[i];
+    if (chip) tx.innerHTML = `<b>${chip[0]}</b><p>${chip[1]}</p>`;
   });
   $("#hero .peek")?.setAttribute("aria-label", "Preview: the Kage night setup");
   html_("#hero .peek-cap", '<b class="jp">影</b><i>Kage — the night setup</i>');
@@ -147,6 +158,7 @@ export function buildKageSupplyDoc(html: string, products: Product[], base = "/l
     if (!c) return;
     card.setAttribute("data-kage-to", c.to);
     card.setAttribute("role", "link");
+    card.setAttribute("tabindex", "0");
     card.setAttribute("aria-label", `${c.lab} — ${c.meta}`);
     const lab = card.querySelector(".card-lab");
     if (lab) lab.innerHTML = `<b>${c.lab}</b>`;
